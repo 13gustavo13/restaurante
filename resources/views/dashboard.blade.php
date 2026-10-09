@@ -696,10 +696,10 @@
             Reservaciones
         </a>
 
-        <a href="#" class="nav-link">
-            <i class="fa-solid fa-users"></i>
-            Clientes
-        </a>
+        <a href="{{ route('mesas') }}" class="nav-link">
+    <i class="fa-solid fa-chair"></i>
+    Mesas y zonas
+</a>
 
         <p class="menu-label">Gestión</p>
 
