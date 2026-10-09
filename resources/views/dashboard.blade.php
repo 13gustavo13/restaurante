@@ -126,6 +126,14 @@
             box-shadow: 0 5px 15px rgba(37, 99, 235, .22);
         }
 
+        .logout-button {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
         .sidebar-bottom {
             margin-top: auto;
             padding-top: 25px;
@@ -701,6 +709,11 @@
     Mesas y zonas
 </a>
 
+        <a href="{{ route('sedes.index') }}" class="nav-link">
+            <i class="fa-solid fa-location-dot"></i>
+            Sedes
+        </a>
+
         <p class="menu-label">Gestión</p>
 
         <a href="#" class="nav-link">
@@ -725,10 +738,13 @@
                 <p>Consulta las opciones disponibles del sistema de administración.</p>
             </div>
 
-            <a href="{{ route('login') }}" class="nav-link">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Cerrar sesión
-            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="nav-link logout-button">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Cerrar sesión
+                </button>
+            </form>
         </div>
 
     </aside>
@@ -754,8 +770,8 @@
                     <div class="avatar">AD</div>
 
                     <div class="user-info">
-                        <strong>Administrador</strong>
-                        <span>Administrador del sistema</span>
+                        <strong>{{ auth()->user()->name }}</strong>
+                        <span>{{ auth()->user()->email }}</span>
                     </div>
 
                     <i class="fa-solid fa-chevron-down"
