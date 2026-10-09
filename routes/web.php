@@ -16,3 +16,6 @@ Route::get('/dashboard', function () {
 Route::get('/mesas', function () {
     return view('mesas');
 })->name('mesas');
+Route::get('/pedidos', function () {
+    return view('pedidos');
+})->name('pedidos');

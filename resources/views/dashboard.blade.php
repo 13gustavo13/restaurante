@@ -681,10 +681,10 @@
             Panel principal
         </a>
 
-        <a href="#" class="nav-link">
-            <i class="fa-solid fa-clipboard-list"></i>
-            Pedidos
-        </a>
+        <<a href="{{ route('pedidos') }}" class="nav-link">
+    <i class="fa-solid fa-clipboard-list"></i>
+    Pedidos
+</a>
 
         <a href="#" class="nav-link">
             <i class="fa-solid fa-bowl-food"></i>
