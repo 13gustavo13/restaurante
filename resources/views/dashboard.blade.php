@@ -1,1003 +1,281 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard | Restaurante</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Panel principal | Restaurantes y Comedores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --primary-light: #eff6ff;
-            --sidebar: #142b4a;
-            --sidebar-hover: #203f65;
-            --background: #f3f7fc;
-            --white: #ffffff;
-            --text: #1e293b;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --success: #16a34a;
-            --warning: #d97706;
-            --info: #0284c7;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--background);
-            color: var(--text);
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* MENÚ LATERAL */
-
-        .sidebar {
-            width: 255px;
-            min-width: 255px;
-            background: var(--sidebar);
-            color: white;
-            padding: 25px 17px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 5px 10px 30px;
-        }
-
-        .brand-icon {
-            width: 43px;
-            height: 43px;
-            border-radius: 12px;
-            background: var(--primary);
-            display: grid;
-            place-items: center;
-            font-size: 21px;
-        }
-
-        .brand h2 {
-            font-size: 19px;
-            font-weight: 700;
-        }
-
-        .brand span {
-            display: block;
-            font-size: 10px;
-            color: #a9c4e5;
-            font-weight: 400;
-            margin-top: 2px;
-        }
-
-        .menu-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: #8faac9;
-            margin: 18px 12px 11px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            padding: 13px 14px;
-            margin-bottom: 5px;
-            color: #d1deee;
-            border-radius: 9px;
-            font-size: 12px;
-            transition: .2s;
-        }
-
-        .nav-link i {
-            width: 20px;
-            text-align: center;
-            font-size: 15px;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .nav-link.active {
-            box-shadow: 0 5px 15px rgba(37, 99, 235, .22);
-        }
-
-        .sidebar-bottom {
-            margin-top: auto;
-            padding-top: 25px;
-        }
-
-        .help-card {
-            background: rgba(255, 255, 255, .07);
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 12px;
-            padding: 16px;
-            margin: 12px 3px;
-        }
-
-        .help-card i {
-            color: #93c5fd;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .help-card strong {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 6px;
-        }
-
-        .help-card p {
-            color: #a9bed8;
-            font-size: 10px;
-            line-height: 1.7;
-        }
-
-        /* CONTENIDO */
-
-        .main {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .topbar {
-            min-height: 82px;
-            padding: 18px 32px;
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .page-title h1 {
-            font-size: 21px;
-            font-weight: 700;
-        }
-
-        .page-title p {
-            font-size: 11px;
-            color: var(--muted);
-            margin-top: 5px;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 22px;
-        }
-
-        .notification {
-            position: relative;
-            color: #64748b;
-            font-size: 19px;
-        }
-
-        .notification-dot {
-            position: absolute;
-            right: -4px;
-            top: -4px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #ef4444;
-            border: 1px solid white;
-        }
-
-        .user {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-        }
-
-        .avatar {
-            width: 42px;
-            height: 42px;
-            background: #dbeafe;
-            color: var(--primary);
-            display: grid;
-            place-items: center;
-            border-radius: 50%;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .user-info strong {
-            display: block;
-            font-size: 12px;
-        }
-
-        .user-info span {
-            display: block;
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 3px;
-        }
-
-        .content {
-            padding: 30px 32px;
-            max-width: 1600px;
-            margin: auto;
-        }
-
-        /* BIENVENIDA */
-
-        .welcome {
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            padding: 31px;
-            margin-bottom: 28px;
-            border-radius: 16px;
-            color: white;
-            background: linear-gradient(115deg, #1d4ed8, #3b82f6);
-        }
-
-        .welcome::after {
-            content: "";
-            position: absolute;
-            width: 240px;
-            height: 240px;
-            border: 35px solid rgba(255,255,255,.07);
-            border-radius: 50%;
-            right: 45px;
-            top: -110px;
-        }
-
-        .welcome-text {
-            position: relative;
-            z-index: 1;
-        }
-
-        .welcome h2 {
-            font-size: 24px;
-            margin-bottom: 9px;
-        }
-
-        .welcome p {
-            font-size: 12px;
-            color: #e0edff;
-            line-height: 1.8;
-            max-width: 550px;
-        }
-
-        .welcome-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            margin-top: 18px;
-            padding: 11px 17px;
-            background: white;
-            color: var(--primary);
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            transition: .2s;
-        }
-
-        .welcome-button:hover {
-            background: #eff6ff;
-            transform: translateY(-2px);
-        }
-
-        .welcome-icon {
-            position: relative;
-            z-index: 1;
-            margin-right: 25px;
-            font-size: 67px;
-            color: rgba(255,255,255,.88);
-        }
-
-        /* TÍTULOS */
-
-        .section-heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 17px;
-        }
-
-        .section-heading h3 {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .section-heading p,
-        .section-heading span {
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        /* INDICADORES */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 18px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--white);
-            padding: 21px;
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            transition: .2s;
-        }
-
-        .stat-card:hover {
-            border-color: #bfdbfe;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(30, 64, 175, .05);
-        }
-
-        .stat-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 17px;
-        }
-
-        .stat-icon {
-            width: 43px;
-            height: 43px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            background: var(--primary-light);
-            color: var(--primary);
-            font-size: 18px;
-        }
-
-        .stat-card:nth-child(2) .stat-icon {
-            background: #fff7ed;
-            color: #ea580c;
-        }
-
-        .stat-card:nth-child(3) .stat-icon {
-            background: #ecfdf5;
-            color: #059669;
-        }
-
-        .stat-card:nth-child(4) .stat-icon {
-            background: #f5f3ff;
-            color: #7c3aed;
-        }
-
-        .stat-card h4 {
-            font-size: 27px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .stat-card p {
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .stat-change {
-            color: var(--success);
-            font-size: 10px;
-            margin-top: 12px;
-        }
-
-        /* ACCESOS RÁPIDOS */
-
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .action-card {
-            display: block;
-            background: white;
-            padding: 21px 17px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            transition: .2s;
-        }
-
-        .action-card:hover {
-            border-color: #93c5fd;
-            box-shadow: 0 7px 20px rgba(37, 99, 235, .07);
-            transform: translateY(-3px);
-        }
-
-        .action-icon {
-            display: grid;
-            place-items: center;
-            width: 43px;
-            height: 43px;
-            margin-bottom: 14px;
-            border-radius: 11px;
-            background: var(--primary-light);
-            color: var(--primary);
-            font-size: 19px;
-        }
-
-        .action-card strong {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 6px;
-        }
-
-        .action-card span {
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        /* TABLA DE PEDIDOS */
-
-        .table-container {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            overflow: hidden;
-        }
-
-        .table-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .table-header h3 {
-            font-size: 15px;
-        }
-
-        .view-all {
-            font-size: 11px;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .table-scroll {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            min-width: 600px;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 16px 20px;
-            border-bottom: 1px solid #edf2f7;
-            font-size: 11px;
-        }
-
-        th {
-            background: #f8fafc;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        td {
-            color: #475569;
-        }
-
-        tbody tr:hover {
-            background: #f8fbff;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .order-id {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .completed {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .pending {
-            background: #fef3c7;
-            color: #a16207;
-        }
-
-        .preparing {
-            background: #dbeafe;
-            color: #1d4ed8;
-        }
-
-        .footer {
-            padding: 24px;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 10px;
-        }
-
-        /* DISEÑO RESPONSIVO */
-
-        @media (max-width: 1200px) {
-            .stats,
-            .quick-actions {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .content {
-                padding: 25px 22px;
-            }
-        }
-
-        @media (max-width: 760px) {
-            .layout {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                min-width: 0;
-                padding: 17px;
-            }
-
-            .brand {
-                padding-bottom: 15px;
-            }
-
-            .menu-label {
-                margin-top: 12px;
-            }
-
-            .sidebar-bottom {
-                display: none;
-            }
-
-            .topbar {
-                padding: 17px;
-            }
-
-            .topbar-right {
-                gap: 13px;
-            }
-
-            .user-info {
-                display: none;
-            }
-
-            .content {
-                padding: 20px 14px;
-            }
-
-            .welcome {
-                padding: 23px;
-            }
-
-            .welcome h2 {
-                font-size: 20px;
-            }
-
-            .welcome-icon {
-                font-size: 42px;
-                margin-right: 0;
-            }
-
-            .stats,
-            .quick-actions {
-                gap: 11px;
-            }
-
-            .stat-card {
-                padding: 15px;
-            }
-
-            .stat-card h4 {
-                font-size: 23px;
-            }
-
-            .action-card {
-                padding: 16px 12px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .stats,
-            .quick-actions {
-                grid-template-columns: 1fr;
-            }
-
-            .welcome-icon {
-                display: none;
-            }
-
-            .page-title h1 {
-                font-size: 17px;
-            }
+            --primary: #0878f9;
+            --primary-dark: #0668d9;
+            --navy: #072b4a;
+            --navy-light: #0a385d;
+            --background: #f4f8fc;
+            --surface: #fff;
+            --text: #102046;
+            --muted: #71819a;
+            --border: #e3eaf3;
+            --success: #16a765;
+            --danger: #f04455;
+            --cyan: #13b9d3;
+        }
+
+        * { box-sizing: border-box; }
+        body { margin: 0; min-width: 320px; color: var(--text); background: linear-gradient(145deg, #f8fbff 40%, #eaf4ff); font-family: 'Inter', sans-serif; }
+        button, select { font: inherit; }
+        button, a { -webkit-tap-highlight-color: transparent; }
+        a { color: inherit; text-decoration: none; }
+        [hidden] { display: none !important; }
+
+        .app-shell { display: grid; grid-template-columns: 214px minmax(0, 1fr); width: min(1420px, calc(100% - 40px)); min-height: calc(100vh - 40px); margin: 20px auto; overflow: hidden; border: 1px solid rgba(210, 224, 238, .9); border-radius: 20px; background: var(--surface); box-shadow: 0 24px 70px rgba(31, 75, 117, .14); }
+        .sidebar { display: flex; flex-direction: column; padding: 24px 14px 18px; color: #dceafb; background: linear-gradient(180deg, #052844, var(--navy)); }
+        .brand { display: flex; align-items: center; gap: 11px; padding: 0 8px 27px; }
+        .brand-icon { display: grid; width: 39px; height: 39px; flex: 0 0 39px; place-items: center; border-radius: 12px; color: #5de2ff; background: rgba(22, 177, 232, .13); font-size: 20px; }
+        .brand strong, .brand span { display: block; }
+        .brand strong { color: white; font-size: 13px; line-height: 1.25; }
+        .brand span { margin-top: 3px; color: #9fb9d1; font-size: 8px; letter-spacing: 1.25px; }
+        .nav { display: grid; gap: 5px; }
+        .nav-link { display: flex; align-items: center; gap: 12px; min-height: 43px; padding: 0 13px; border: 0; border-radius: 8px; color: #d7e5f2; background: transparent; font-size: 11px; cursor: pointer; transition: .2s ease; }
+        .nav-link i { width: 18px; color: #a9bdd0; text-align: center; font-size: 13px; }
+        .nav-link:hover, .nav-link.active { color: white; background: var(--primary); transform: translateX(2px); }
+        .nav-link:hover i, .nav-link.active i { color: white; }
+        .logout-form { margin-top: auto; padding-top: 22px; }
+        .logout-form .nav-link { width: 100%; }
+
+        .main { min-width: 0; background: var(--background); }
+        .topbar { position: relative; z-index: 5; display: flex; align-items: center; min-height: 75px; padding: 14px 24px; gap: 13px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,.96); }
+        .branch-select { position: relative; width: 220px; margin-right: auto; }
+        .branch-select i { position: absolute; top: 50%; left: 13px; color: var(--primary); transform: translateY(-50%); pointer-events: none; }
+        .branch-select select { width: 100%; height: 42px; padding: 0 37px; border: 1px solid var(--border); border-radius: 8px; outline: none; color: #314563; background: white; font-size: 11px; cursor: pointer; }
+        .icon-button { position: relative; display: grid; width: 41px; height: 41px; place-items: center; border: 1px solid var(--border); border-radius: 9px; color: #526680; background: white; cursor: pointer; }
+        .notification-dot { position: absolute; top: 7px; right: 8px; width: 7px; height: 7px; border: 2px solid white; border-radius: 50%; background: var(--danger); }
+        .user-menu { position: relative; display: flex; align-items: center; gap: 9px; padding-left: 3px; cursor: pointer; }
+        .avatar { display: grid; width: 40px; height: 40px; place-items: center; overflow: hidden; border-radius: 50%; color: white; background: linear-gradient(145deg, #ffb178, #dc6b59); font-size: 11px; font-weight: 800; }
+        .user-copy strong, .user-copy span { display: block; }
+        .user-copy strong { font-size: 11px; }
+        .user-copy span { margin-top: 3px; color: var(--muted); font-size: 9px; }
+        .chevron { color: #8290a4; font-size: 10px; }
+        .popover { position: absolute; top: calc(100% + 12px); right: 0; width: 245px; padding: 8px; border: 1px solid var(--border); border-radius: 12px; background: white; box-shadow: 0 18px 45px rgba(31, 60, 91, .17); }
+        .popover p { margin: 0; padding: 10px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+        .popover a, .popover button { display: flex; width: 100%; align-items: center; gap: 10px; padding: 10px; border: 0; border-radius: 8px; color: #40536f; background: transparent; font-size: 11px; cursor: pointer; }
+        .popover a:hover, .popover button:hover { background: #eef6ff; color: var(--primary); }
+
+        .content { padding: 27px 23px 35px; }
+        .welcome { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+        .welcome h1 { margin: 0 0 6px; font-size: 24px; letter-spacing: -.65px; }
+        .welcome p { margin: 0; color: var(--muted); font-size: 11px; }
+        .date { display: flex; align-items: center; gap: 8px; color: #637590; font-size: 10px; }
+        .date i { color: var(--primary); }
+
+        .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+        .stat-card { min-width: 0; padding: 15px 14px; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: 0 5px 16px rgba(36, 71, 104, .045); }
+        .stat-heading { display: flex; align-items: center; gap: 9px; color: #334967; font-size: 10px; font-weight: 600; }
+        .stat-icon { display: grid; width: 29px; height: 29px; flex: 0 0 29px; place-items: center; border-radius: 7px; color: var(--primary); background: #eaf4ff; font-size: 13px; }
+        .stat-card:nth-child(2) .stat-icon { color: #2587d7; }
+        .stat-card:nth-child(3) .stat-icon { color: #0aa0c2; }
+        .stat-card:nth-child(4) .stat-icon { color: var(--danger); background: #fff0f2; }
+        .stat-value { margin: 12px 0 6px; font-size: 22px; font-weight: 800; line-height: 1; }
+        .stat-note { color: #7b8aa0; font-size: 9px; }
+        .stat-note strong { margin-right: 4px; color: var(--primary); }
+        .stat-note .positive { color: var(--success); }
+        .stat-note .danger { color: var(--danger); }
+
+        .dashboard-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 13px; }
+        .panel { min-width: 0; padding: 15px; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: 0 5px 16px rgba(36, 71, 104, .04); }
+        .panel-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 13px; }
+        .panel-title { margin: 0; font-size: 12px; font-weight: 700; }
+        .panel-link { border: 0; color: var(--primary); background: transparent; font-size: 9px; cursor: pointer; }
+        .panel-select { height: 29px; padding: 0 9px; border: 1px solid var(--border); border-radius: 6px; color: #536781; background: white; font-size: 9px; }
+
+        .activity-list { display: grid; gap: 8px; }
+        .activity { display: grid; grid-template-columns: 30px 38px minmax(0,1fr) auto; align-items: center; gap: 8px; font-size: 9px; }
+        .activity-icon { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 7px; color: var(--primary); background: #eaf4ff; }
+        .activity:nth-child(3) .activity-icon { color: var(--danger); background: #fff0f2; }
+        .activity:nth-child(4) .activity-icon { color: var(--success); background: #eafaf2; }
+        .activity-time { color: #708199; }
+        .activity-name { overflow: hidden; color: #3d516e; text-overflow: ellipsis; white-space: nowrap; }
+        .tag { padding: 5px 7px; border-radius: 6px; color: var(--primary); background: #eaf4ff; font-size: 8px; }
+        .tag.red { color: var(--danger); background: #fff0f2; }
+        .tag.green { color: var(--success); background: #eafaf2; }
+
+        .occupancy { display: grid; grid-template-columns: 126px minmax(0,1fr); align-items: center; gap: 13px; min-height: 137px; }
+        .donut { position: relative; width: 112px; aspect-ratio: 1; margin: auto; border-radius: 50%; background: conic-gradient(var(--primary) 0 59%, var(--cyan) 59% 85%, #d9e6f2 85% 100%); }
+        .donut::after { content: ''; position: absolute; inset: 19px; border-radius: 50%; background: white; }
+        .donut strong { position: absolute; z-index: 1; inset: 0; display: grid; place-items: center; font-size: 18px; }
+        .legend { display: grid; gap: 12px; color: #536781; font-size: 9px; }
+        .legend div { display: grid; grid-template-columns: 9px 1fr; gap: 8px; align-items: start; }
+        .legend i { width: 8px; height: 8px; margin-top: 2px; border-radius: 50%; background: var(--primary); }
+        .legend div:nth-child(2) i { background: var(--cyan); }
+        .legend div:nth-child(3) i { background: #c4d7e9; }
+        .legend strong, .legend span { display: block; }
+        .legend span { margin-top: 2px; color: #7e8da2; }
+
+        .services { display: grid; gap: 8px; }
+        .service { display: grid; grid-template-columns: 22px 62px minmax(110px,1fr) 47px 68px; align-items: center; gap: 7px; color: #526681; font-size: 8px; }
+        .service > i { color: var(--primary); text-align: center; }
+        .service strong { color: #334966; font-size: 9px; }
+        .progress { height: 6px; overflow: hidden; border-radius: 99px; background: #edf2f7; }
+        .progress span { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+        .service-state { padding: 5px; border-radius: 6px; color: var(--primary); background: #eaf4ff; text-align: center; }
+        .service-state.scheduled { color: #65768e; background: #edf2f7; }
+
+        .chart { display: flex; height: 140px; padding: 7px 4px 17px 27px; align-items: end; gap: clamp(5px, 1.4vw, 13px); border-left: 1px solid #dfe8f1; border-bottom: 1px solid #dfe8f1; background: repeating-linear-gradient(to top, transparent 0 28px, #edf2f7 29px); }
+        .bar { position: relative; width: 11px; max-width: 8%; height: var(--height); border-radius: 3px 3px 0 0; background: linear-gradient(#2d96f0, #68b8fa); transition: height .35s ease; }
+        .bar:nth-child(4), .bar:nth-child(5) { background: linear-gradient(#0878f9, #0878f9); }
+        .bar span { position: absolute; top: calc(100% + 7px); left: 50%; color: #75869d; font-size: 7px; transform: translateX(-50%); }
+
+        .toast { position: fixed; right: 24px; bottom: 24px; z-index: 20; display: flex; align-items: center; gap: 11px; max-width: 340px; padding: 14px 17px; border-radius: 10px; color: white; background: #123552; box-shadow: 0 16px 36px rgba(11, 42, 68, .25); font-size: 11px; }
+
+        @media (max-width: 980px) {
+            .app-shell { grid-template-columns: 78px minmax(0,1fr); width: calc(100% - 24px); margin: 12px auto; }
+            .sidebar { padding-inline: 10px; }
+            .brand { justify-content: center; padding-inline: 0; }
+            .brand div:last-child, .nav-link span { display: none; }
+            .nav-link { justify-content: center; padding: 0; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 680px) {
+            .app-shell { display: block; width: 100%; min-height: 100vh; margin: 0; border: 0; border-radius: 0; }
+            .sidebar { display: block; padding: 12px; }
+            .brand { justify-content: flex-start; padding: 0 5px 12px; }
+            .brand div:last-child { display: block; }
+            .nav { grid-template-columns: repeat(3, 1fr); }
+            .nav-link { justify-content: center; gap: 7px; min-height: 41px; padding: 0 6px; font-size: 10px; }
+            .nav-link span { display: inline; }
+            .nav-link:nth-child(n+7), .logout-form { display: none; }
+            .topbar { min-height: 66px; padding: 11px 14px; }
+            .branch-select { width: min(190px, 55vw); }
+            .user-copy, .user-menu > .chevron { display: none; }
+            .content { padding: 23px 14px 35px; }
+            .welcome { align-items: flex-start; }
+            .date { display: none; }
+            .stats { gap: 9px; }
+            .stat-card { padding: 13px 12px; }
+            .stat-value { font-size: 20px; }
+            .occupancy { grid-template-columns: 120px 1fr; }
+            .service { grid-template-columns: 20px 58px 1fr auto; }
+            .service .progress { display: none; }
+        }
+        @media (max-width: 430px) {
+            .nav-link span { display: none; }
+            .stats { grid-template-columns: 1fr; }
+            .activity { grid-template-columns: 27px 34px minmax(0,1fr); }
+            .activity .tag { display: none; }
+            .occupancy { grid-template-columns: 1fr; }
+            .legend { grid-template-columns: repeat(3, 1fr); }
+            .legend div { grid-template-columns: 8px 1fr; }
         }
     </style>
 </head>
-
 <body>
-<div class="layout">
-
-    <!-- MENÚ LATERAL -->
+<div class="app-shell">
     <aside class="sidebar">
-
-        <div class="brand">
-            <div class="brand-icon">
-                <i class="fa-solid fa-utensils"></i>
-            </div>
-
-            <div>
-                <h2>Restaurante</h2>
-                <span>Sistema de administración</span>
-            </div>
-        </div>
-
-        <p class="menu-label">General</p>
-
-        <a href="{{ route('dashboard') }}" class="nav-link active">
-            <i class="fa-solid fa-house"></i>
-            Panel principal
+        <a class="brand" href="{{ route('dashboard') }}">
+            <span class="brand-icon"><i class="fa-solid fa-kitchen-set"></i></span>
+            <div><strong>Restaurantes<br>Comedores</strong><span>SISTEMA DE GESTIÓN</span></div>
         </a>
-
-        <<a href="{{ route('pedidos') }}" class="nav-link">
-    <i class="fa-solid fa-clipboard-list"></i>
-    Pedidos
-</a>
-
-        <a href="#" class="nav-link">
-            <i class="fa-solid fa-bowl-food"></i>
-            Menú de alimentos
-        </a>
-
-        <a href="#" class="nav-link">
-            <i class="fa-solid fa-calendar-days"></i>
-            Reservaciones
-        </a>
-
-        <a href="{{ route('mesas') }}" class="nav-link">
-    <i class="fa-solid fa-chair"></i>
-    Mesas y zonas
-</a>
-
-        <p class="menu-label">Gestión</p>
-
-        <a href="#" class="nav-link">
-            <i class="fa-solid fa-boxes-stacked"></i>
-            Inventario
-        </a>
-
-        <a href="#" class="nav-link">
-            <i class="fa-solid fa-chart-column"></i>
-            Reportes
-        </a>
-
-        <a href="#" class="nav-link">
-            <i class="fa-solid fa-gear"></i>
-            Configuración
-        </a>
-
-        <div class="sidebar-bottom">
-            <div class="help-card">
-                <i class="fa-solid fa-circle-question"></i>
-                <strong>Centro de ayuda</strong>
-                <p>Consulta las opciones disponibles del sistema de administración.</p>
-            </div>
-
-            <a href="{{ route('login') }}" class="nav-link">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Cerrar sesión
-            </a>
-        </div>
-
+        <nav class="nav" aria-label="Navegación principal">
+            <a class="nav-link active" href="{{ route('dashboard') }}" aria-current="page"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-building-shield"></i><span>Administración</span></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-inbox"></i><span>Recepción</span></a>
+            <a class="nav-link" href="#services"><i class="fa-solid fa-clipboard-check"></i><span>Servicios</span></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-utensils"></i><span>Menú</span></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-boxes-stacked"></i><span>Inventario</span></a>
+            <a class="nav-link" href="{{ route('sedes.index') }}"><i class="fa-solid fa-house-chimney"></i><span>Sedes</span></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-user-group"></i><span>Usuarios</span></a>
+            <a class="nav-link" href="#"><i class="fa-solid fa-file-lines"></i><span>Reportes</span></a>
+        </nav>
+        <form class="logout-form" action="{{ route('logout') }}" method="POST">@csrf<button class="nav-link" type="submit"><i class="fa-solid fa-right-from-bracket"></i><span>Cerrar sesión</span></button></form>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="main">
-
         <header class="topbar">
-
-            <div class="page-title">
-                <h1>Panel principal</h1>
-                <p>Inicio / Dashboard</p>
+            <label class="branch-select"><i class="fa-regular fa-building"></i><select id="branch" aria-label="Seleccionar sede"><option value="Centro">Sede Centro</option><option value="Planta Norte">Sede Planta Norte</option></select></label>
+            <button class="icon-button" id="notification-button" type="button" aria-label="Abrir notificaciones" aria-expanded="false"><i class="fa-regular fa-bell"></i><span class="notification-dot"></span></button>
+            <div class="user-menu" id="user-menu" role="button" tabindex="0" aria-expanded="false">
+                <span class="avatar">{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}</span>
+                <div class="user-copy"><strong>{{ auth()->user()->name }}</strong><span>Administrador</span></div><i class="fa-solid fa-chevron-down chevron"></i>
+                <div class="popover" id="user-popover" hidden><p>{{ auth()->user()->email }}</p><a href="{{ route('sedes.index') }}"><i class="fa-solid fa-location-dot"></i>Administrar sedes</a><form action="{{ route('logout') }}" method="POST">@csrf<button type="submit"><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</button></form></div>
             </div>
-
-            <div class="topbar-right">
-
-                <a href="#" class="notification" aria-label="Notificaciones">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="notification-dot"></span>
-                </a>
-
-                <div class="user">
-                    <div class="avatar">AD</div>
-
-                    <div class="user-info">
-                        <strong>Administrador</strong>
-                        <span>Administrador del sistema</span>
-                    </div>
-
-                    <i class="fa-solid fa-chevron-down"
-                       style="font-size: 10px; color: #64748b;"></i>
-                </div>
-
-            </div>
+            <div class="popover" id="notification-popover" hidden style="right:24px;top:67px"><p><strong>Todo está bajo control.</strong><br>No tienes notificaciones nuevas.</p></div>
         </header>
 
         <section class="content">
+            <div class="welcome"><div><h1>Buen día, {{ explode(' ', auth()->user()->name)[0] }}</h1><p>Aquí tienes un resumen de la operación de la sede <span id="branch-name">Centro</span>.</p></div><div class="date"><span>{{ now()->locale('es')->translatedFormat('l, d \\d\\e F \\d\\e Y') }}</span><i class="fa-regular fa-calendar"></i></div></div>
 
-            <!-- BIENVENIDA -->
-            <div class="welcome">
+            <section class="stats" aria-label="Indicadores del día">
+                <article class="stat-card"><div class="stat-heading"><span class="stat-icon"><i class="fa-solid fa-utensils"></i></span>Servicios de hoy</div><div class="stat-value">3</div><div class="stat-note"><strong>2 en curso</strong></div></article>
+                <article class="stat-card"><div class="stat-heading"><span class="stat-icon"><i class="fa-solid fa-user-group"></i></span>Comensales</div><div class="stat-value">245</div><div class="stat-note"><strong class="positive">↑ +6%</strong> vs. ayer</div></article>
+                <article class="stat-card"><div class="stat-heading"><span class="stat-icon"><i class="fa-solid fa-bell-concierge"></i></span>Platos servidos</div><div class="stat-value">192</div><div class="stat-note"><strong class="positive">↑ +12%</strong> vs. ayer</div></article>
+                <article class="stat-card"><div class="stat-heading"><span class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>Incidencias</div><div class="stat-value" style="color:var(--danger)">2</div><div class="stat-note"><strong class="danger">1 pendiente</strong></div></article>
+            </section>
 
-                <div class="welcome-text">
-                    <h2>¡Bienvenido al sistema!</h2>
+            <div class="dashboard-grid">
+                <section class="panel"><div class="panel-header"><h2 class="panel-title">Actividad reciente</h2><button class="panel-link js-toast" type="button">Ver todas</button></div><div class="activity-list">
+                    <div class="activity"><span class="activity-icon"><i class="fa-solid fa-bell-concierge"></i></span><span class="activity-time">10:24</span><span class="activity-name">Lote de pollo recibido y validado</span><span class="tag">Recepción</span></div>
+                    <div class="activity"><span class="activity-icon"><i class="fa-solid fa-utensils"></i></span><span class="activity-time">09:15</span><span class="activity-name">Menú de comida publicado</span><span class="tag">Menú</span></div>
+                    <div class="activity"><span class="activity-icon"><i class="fa-solid fa-triangle-exclamation"></i></span><span class="activity-time">08:50</span><span class="activity-name">Incidencia registrada: equipo de frío</span><span class="tag red">Control</span></div>
+                    <div class="activity"><span class="activity-icon"><i class="fa-solid fa-user"></i></span><span class="activity-time">08:20</span><span class="activity-name">Servicio de comida iniciado</span><span class="tag green">Servicios</span></div>
+                </div></section>
 
-                    <p>
-                        Administra las operaciones de tu restaurante desde un solo lugar.
-                        Consulta los pedidos, organiza las reservaciones y revisa
-                        la información general de tu negocio.
-                    </p>
+                <section class="panel"><div class="panel-header"><h2 class="panel-title">Ocupación de hoy</h2><select class="panel-select" aria-label="Comedor"><option>Comedor principal</option><option>Terraza</option></select></div><div class="occupancy"><div class="donut"><strong>85%</strong></div><div class="legend"><div><i></i><p><strong>Ocupación actual</strong><span>102 comensales</span></p></div><div><i></i><p><strong>Capacidad disponible</strong><span>18 lugares</span></p></div><div><i></i><p><strong>Capacidad total</strong><span>120 lugares</span></p></div></div></div></section>
 
-                    <a href="#" class="welcome-button">
-                        <i class="fa-solid fa-plus"></i>
-                        Registrar nuevo pedido
-                    </a>
-                </div>
+                <section class="panel" id="services"><div class="panel-header"><h2 class="panel-title">Estado de servicios</h2><button class="panel-link js-toast" type="button">Ver todos</button></div><div class="services">
+                    <div class="service"><i class="fa-solid fa-mug-hot"></i><strong>Desayuno</strong><span>07:00 - 10:00</span><div class="progress"><span style="width:82%"></span></div><span class="service-state">En curso</span></div>
+                    <div class="service"><i class="fa-solid fa-clipboard"></i><strong>Comida</strong><span>12:00 - 15:00</span><div class="progress"><span style="width:0"></span></div><span class="service-state scheduled">Programado</span></div>
+                    <div class="service"><i class="fa-solid fa-shield-halved"></i><strong>Cena</strong><span>18:00 - 21:00</span><div class="progress"><span style="width:0"></span></div><span class="service-state scheduled">Programado</span></div>
+                </div></section>
 
-                <i class="fa-solid fa-utensils welcome-icon"></i>
-
+                <section class="panel"><div class="panel-header"><h2 class="panel-title">Comensales por hora</h2><select class="panel-select" id="chart-range" aria-label="Periodo de la gráfica"><option value="today">Hoy</option><option value="yesterday">Ayer</option></select></div><div class="chart" id="chart"><div class="bar" style="--height:20%"><span>7:00</span></div><div class="bar" style="--height:38%"><span>9:00</span></div><div class="bar" style="--height:48%"><span>11:00</span></div><div class="bar" style="--height:78%"><span>13:00</span></div><div class="bar" style="--height:92%"><span>15:00</span></div><div class="bar" style="--height:41%"><span>17:00</span></div><div class="bar" style="--height:51%"><span>19:00</span></div><div class="bar" style="--height:26%"><span>21:00</span></div></div></section>
             </div>
-
-            <!-- ESTADÍSTICAS -->
-            <div class="section-heading">
-                <div>
-                    <h3>Resumen general</h3>
-                    <p>Indicadores de ejemplo del restaurante</p>
-                </div>
-
-                <span>
-                    <i class="fa-regular fa-calendar"></i>
-                    Octubre 2026
-                </span>
-            </div>
-
-            <div class="stats">
-
-                <article class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-receipt"></i>
-                        </div>
-                    </div>
-
-                    <h4>128</h4>
-                    <p>Pedidos registrados</p>
-                    <div class="stat-change">
-                        <i class="fa-solid fa-arrow-trend-up"></i>
-                        Total de ejemplo
-                    </div>
-                </article>
-
-                <article class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
-                    </div>
-
-                    <h4>12</h4>
-                    <p>Pedidos pendientes</p>
-                    <div class="stat-change" style="color: #d97706;">
-                        <i class="fa-regular fa-hourglass-half"></i>
-                        Por atender
-                    </div>
-                </article>
-
-                <article class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                    </div>
-
-                    <h4>86</h4>
-                    <p>Clientes registrados</p>
-                    <div class="stat-change">
-                        <i class="fa-solid fa-user-check"></i>
-                        Registro de ejemplo
-                    </div>
-                </article>
-
-                <article class="stat-card">
-                    <div class="stat-top">
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </div>
-                    </div>
-
-                    <h4>9</h4>
-                    <p>Reservaciones del día</p>
-                    <div class="stat-change">
-                        <i class="fa-solid fa-calendar"></i>
-                        Agenda de ejemplo
-                    </div>
-                </article>
-
-            </div>
-
-            <!-- ACCESOS RÁPIDOS -->
-            <div class="section-heading">
-                <div>
-                    <h3>Accesos rápidos</h3>
-                    <p>Accede a las principales funciones</p>
-                </div>
-            </div>
-
-            <div class="quick-actions">
-
-                <a href="#" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <strong>Nuevo pedido</strong>
-                    <span>Registrar una orden</span>
-                </a>
-
-                <a href="#" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
-                    <strong>Menú de alimentos</strong>
-                    <span>Consultar los platillos</span>
-                </a>
-
-                <a href="#" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-calendar-plus"></i>
-                    </div>
-                    <strong>Reservaciones</strong>
-                    <span>Gestionar reservaciones</span>
-                </a>
-
-                <a href="#" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-chart-pie"></i>
-                    </div>
-                    <strong>Reportes</strong>
-                    <span>Consultar información</span>
-                </a>
-
-            </div>
-
-            <!-- TABLA -->
-            <div class="table-container">
-
-                <div class="table-header">
-                    <div>
-                        <h3>Pedidos recientes</h3>
-                    </div>
-
-                    <a href="#" class="view-all">
-                        Ver todos
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="table-scroll">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>N.º de pedido</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td class="order-id">#PED-001</td>
-                                <td>Juan Pérez</td>
-                                <td>09/10/2026</td>
-                                <td>$350.00</td>
-                                <td>
-                                    <span class="status completed">
-                                        Entregado
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="order-id">#PED-002</td>
-                                <td>María López</td>
-                                <td>09/10/2026</td>
-                                <td>$180.00</td>
-                                <td>
-                                    <span class="status preparing">
-                                        En preparación
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="order-id">#PED-003</td>
-                                <td>Carlos Sánchez</td>
-                                <td>09/10/2026</td>
-                                <td>$420.00</td>
-                                <td>
-                                    <span class="status pending">
-                                        Pendiente
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="order-id">#PED-004</td>
-                                <td>Ana Martínez</td>
-                                <td>09/10/2026</td>
-                                <td>$260.00</td>
-                                <td>
-                                    <span class="status completed">
-                                        Entregado
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
         </section>
-
-        <footer class="footer">
-            Sistema de gestión de restaurantes © 2026
-        </footer>
-
     </main>
-
 </div>
+
+<div class="toast" id="toast" hidden><i class="fa-solid fa-circle-check"></i><span id="toast-message"></span></div>
+<script>
+    const branch = document.getElementById('branch');
+    const branchName = document.getElementById('branch-name');
+    const notificationButton = document.getElementById('notification-button');
+    const notificationPopover = document.getElementById('notification-popover');
+    const userMenu = document.getElementById('user-menu');
+    const userPopover = document.getElementById('user-popover');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    let toastTimer;
+
+    function togglePopover(element, trigger) {
+        const willOpen = element.hidden;
+        notificationPopover.hidden = true;
+        userPopover.hidden = true;
+        notificationButton.setAttribute('aria-expanded', 'false');
+        userMenu.setAttribute('aria-expanded', 'false');
+        element.hidden = !willOpen;
+        trigger.setAttribute('aria-expanded', String(willOpen));
+    }
+
+    function showToast(message) {
+        clearTimeout(toastTimer);
+        toastMessage.textContent = message;
+        toast.hidden = false;
+        toastTimer = setTimeout(() => toast.hidden = true, 2600);
+    }
+
+    branch.addEventListener('change', () => { branchName.textContent = branch.value; showToast(`Sede ${branch.value} seleccionada`); });
+    notificationButton.addEventListener('click', (event) => { event.stopPropagation(); togglePopover(notificationPopover, notificationButton); });
+    userMenu.addEventListener('click', (event) => { if (!event.target.closest('a, button')) { event.stopPropagation(); togglePopover(userPopover, userMenu); } });
+    userMenu.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); togglePopover(userPopover, userMenu); } });
+    document.addEventListener('click', () => { notificationPopover.hidden = true; userPopover.hidden = true; notificationButton.setAttribute('aria-expanded', 'false'); userMenu.setAttribute('aria-expanded', 'false'); });
+    document.querySelectorAll('.js-toast').forEach(button => button.addEventListener('click', () => showToast('Módulo listo para conectar con datos reales.')));
+    document.getElementById('chart-range').addEventListener('change', (event) => {
+        const values = event.target.value === 'today' ? [20,38,48,78,92,41,51,26] : [15,31,43,65,76,50,39,20];
+        document.querySelectorAll('.bar').forEach((bar, index) => bar.style.setProperty('--height', `${values[index]}%`));
+    });
+</script>
 </body>
 </html>

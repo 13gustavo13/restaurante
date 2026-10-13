@@ -1,45 +1,18 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
 
-/*
-|--------------------------------------------------------------------------
-| Rutas Públicas (Acceso sin sesión)
-|--------------------------------------------------------------------------
-*/
+Route::middleware('guest')->group(function () {
+    Route::get('/', [AuthController::class, 'create'])->name('login');
+    Route::post('/login', [AuthController::class, 'store'])->name('login.store');
+});
 
-// Página principal: inicio de sesión (conectada al controlador)
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+Route::middleware('auth')->group(function () {
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::view('/sedes', 'sedes')->name('sedes.index');
+    Route::view('/mesas', 'mesas')->name('mesas');
+    Route::view('/pedidos', 'pedidos')->name('pedidos');
 
-// Procesa los datos enviados desde el formulario
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
-
-// Procesa el cierre de sesión
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
-/*
-|--------------------------------------------------------------------------
-| Rutas Protegidas (Requieren inicio de sesión)
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth'])->group(function () {
-    
-    // Panel principal del restaurante
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    // Gestión de mesas
-    Route::get('/mesas', function () {
-        return view('mesas');
-    })->name('mesas');
-    
-    // Gestión de pedidos
-    Route::get('/pedidos', function () {
-        return view('pedidos');
-    })->name('pedidos');
-
+    Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 });
