@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,14 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Alta Cocina</title>
 
-    <!-- Fuentes e Iconos -->
+    <!-- Fuentes e iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-        /* ==========================================================================
-           Variables de Color y Tema (Alta Cocina - Negro Mate y Oro Viejo)
-           ========================================================================== */
         :root {
             --bg-dark: #0a0a0a;
             --panel-bg: #141414;
@@ -30,22 +28,24 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-dark);
             min-height: 100vh;
-            margin: 0;
-            padding: 0;
             color: var(--text-main);
         }
 
-        /* ==========================================================================
-           Contenedor del Fondo (GIF) y la Capa Oscura (Opacidad)
-           ========================================================================== */
+        /* Fondo animado original: NO quitar el GIF */
         .login-background-wrapper {
             position: relative;
             width: 100%;
@@ -54,35 +54,23 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            
-            /* RUTA DEL GIF: 
-               Si estás en Laravel, usa esta línea y borra la de abajo: 
-               background-image: url('{{ asset("images/logingif.gif") }}'); */
-            background-image: url('logingif.gif'); 
-            
+
+            background-image: url('{{ asset("imagenes/logingif.gif") }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            z-index: 1;
+            isolation: isolate;
         }
 
         .login-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Ajusta el 0.80 para hacer el fondo más (0.9) o menos (0.5) oscuro */
-            background: rgba(10, 10, 10, 0.80); 
-            z-index: 2;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.80);
+            z-index: -1;
         }
 
-        /* ==========================================================================
-           Contenedor Principal del Formulario
-           ========================================================================== */
         .login-container {
             position: relative;
-            z-index: 3; /* Mantiene el formulario sobre el fondo oscuro */
             width: 100%;
             max-width: 1150px;
             min-height: 620px;
@@ -96,18 +84,21 @@
             animation: fadeIn 0.7s ease-out forwards;
         }
 
-        /* ==========================================================================
-           Panel Izquierdo: Imagen de Chef Emplatando
-           ========================================================================== */
+        /* Panel izquierdo */
         .brand-panel {
             position: relative;
             padding: 60px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            background: 
-                linear-gradient(180deg, rgba(10, 10, 10, 0.2) 20%, rgba(14, 14, 14, 0.95) 90%),
-                url('https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop') center / cover no-repeat;
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(10, 10, 10, 0.2) 20%,
+                    rgba(14, 14, 14, 0.95) 90%
+                ),
+                url('https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop')
+                center / cover no-repeat;
         }
 
         .hero-content h1 {
@@ -115,7 +106,7 @@
             font-weight: 300;
             line-height: 1.2;
             margin-bottom: 15px;
-            color: #ffffff;
+            color: #fff;
         }
 
         .hero-content h1 strong {
@@ -125,27 +116,25 @@
         }
 
         .hero-content p {
-            color: #cccccc;
+            color: #ccc;
             font-size: 13.5px;
             line-height: 1.6;
             max-width: 380px;
         }
 
-        /* ==========================================================================
-           Panel Derecho: Formulario de Acceso
-           ========================================================================== */
+        /* Panel del formulario */
         .login-panel {
             padding: 60px 55px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: #141414;
+            background: var(--panel-bg);
         }
 
         .login-header-text h2 {
             font-size: 30px;
             font-weight: 600;
-            color: #ffffff;
+            color: #fff;
             margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
@@ -157,9 +146,36 @@
             line-height: 1.5;
         }
 
-        /* ==========================================================================
-           Campos de Formulario (Inputs)
-           ========================================================================== */
+        /* Errores de validación */
+        .alert-error {
+            background: rgba(255, 74, 74, 0.1);
+            border-left: 3px solid #ff4a4a;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #ff8b8b;
+        }
+
+        .alert-error p {
+            margin-bottom: 5px;
+        }
+
+        .alert-error p:last-child {
+            margin-bottom: 0;
+        }
+
+        .alert-success {
+            background: rgba(45, 180, 100, 0.12);
+            border-left: 3px solid #2db464;
+            padding: 12px;
+            margin-bottom: 20px;
+            color: #7ee2a8;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        /* Campos */
         .form-group {
             margin-bottom: 22px;
         }
@@ -177,7 +193,7 @@
         .input-wrapper {
             display: flex;
             align-items: center;
-            height: 52px;
+            min-height: 52px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -199,6 +215,7 @@
 
         .input-wrapper input {
             width: 100%;
+            min-width: 0;
             background: transparent;
             border: none;
             outline: none;
@@ -208,16 +225,16 @@
         }
 
         .input-wrapper input::placeholder {
-            color: #555555;
+            color: #777;
         }
 
-        /* ==========================================================================
-           Opciones y Botones
-           ========================================================================== */
+        /* Opciones */
         .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
             margin: 18px 0 32px;
             font-size: 13px;
         }
@@ -248,9 +265,10 @@
             text-decoration: underline;
         }
 
+        /* Botón de acceso */
         .login-button {
             width: 100%;
-            height: 52px;
+            min-height: 52px;
             background: var(--primary);
             color: var(--bg-dark);
             border: none;
@@ -270,21 +288,39 @@
             box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
         }
 
-        /* ==========================================================================
-           Diseño Responsivo
-           ========================================================================== */
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
         @media (max-width: 900px) {
             .login-container {
                 grid-template-columns: 1fr;
                 max-width: 480px;
+                min-height: auto;
             }
-            
+
             .brand-panel {
                 display: none;
             }
-            
+
             .login-panel {
                 padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .login-background-wrapper {
+                padding: 12px;
+            }
+
+            .login-panel {
+                padding: 32px 20px;
+            }
+
+            .form-options {
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
@@ -292,59 +328,115 @@
 
 <body>
 
-    <!-- CONTENEDOR DEL FONDO ANIMADO Y LA CAPA OSCURA -->
+    <!-- Fondo GIF original -->
     <div class="login-background-wrapper">
-        
-        <!-- Capa de color para bajar opacidad al GIF -->
         <div class="login-overlay"></div>
 
-        <!-- CONTENEDOR DEL LOGIN ORIGINAL -->
         <div class="login-container">
-            
-            <!-- Panel Izquierdo -->
+
+            <!-- Panel izquierdo -->
             <div class="brand-panel">
                 <div class="hero-content">
                     <h1>Alta<br><strong>Cocina</strong></h1>
-                    <p>Accede al sistema de gestión de tu restaurante para administrar reservas, inventarios y personal.</p>
+
+                    <p>
+                        Accede al sistema de gestión de tu restaurante
+                        para administrar reservas, inventarios y personal.
+                    </p>
                 </div>
             </div>
 
-            <!-- Panel Derecho (Formulario) -->
+            <!-- Panel derecho: formulario -->
             <div class="login-panel">
+
                 <div class="login-header-text">
                     <h2>Iniciar sesión</h2>
-                    <p class="subtitle">Ingresa tus credenciales para continuar.</p>
+                    <p class="subtitle">
+                        Ingresa tus credenciales para continuar.
+                    </p>
                 </div>
 
-                <!-- NOTA: Si usas Laravel, puedes apuntar el action a la ruta correspondiente, ej: action="{{ route('login.post') }}" -->
-                <form action="#" method="POST">
+                <!-- Mensajes de sesión -->
+                @if (session('status'))
+                    <div class="alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <!-- Errores de validación o autenticación -->
+                @if ($errors->any())
+                    <div class="alert-error">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+                <form action="{{ route('login.post') }}" method="POST">
+                    @csrf
+
                     <div class="form-group">
                         <label for="email">Correo electrónico</label>
+
                         <div class="input-wrapper">
                             <i class="fa-solid fa-envelope"></i>
-                            <input type="email" id="email" name="email" placeholder="ejemplo@restaurante.com" required>
+
+                            <!-- IMPORTANTE: name="email" -->
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                placeholder="ejemplo@restaurante.com"
+                                autocomplete="username"
+                                required
+                                autofocus
+                            >
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Contraseña</label>
+
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock"></i>
-                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="••••••••"
+                                autocomplete="current-password"
+                                required
+                            >
                         </div>
                     </div>
 
                     <div class="form-options">
-                        <label>
-                            <input type="checkbox" name="remember"> Recordarme
+                        <label for="remember">
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                name="remember"
+                                value="1"
+                                {{ old('remember') ? 'checked' : '' }}
+                            >
+                            Recordarme
                         </label>
-                        <a href="#">¿Olvidaste tu contraseña?</a>
+
+                        <a href="#"
+                           onclick="return false;"
+                           title="La recuperación de contraseña aún no está configurada">
+                            ¿Olvidaste tu contraseña?
+                        </a>
                     </div>
 
-                    <button type="submit" class="login-button">Acceder</button>
+                    <button type="submit" class="login-button">
+                        Acceder
+                    </button>
                 </form>
-            </div>
 
+            </div>
         </div>
     </div>
 

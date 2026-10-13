@@ -1,68 +1,73 @@
+
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
     /**
-     * Muestra la vista del formulario de inicio de sesión.
+     * Mostrar la vista de inicio de sesión.
      */
     public function showLoginForm()
     {
-        // Busca el archivo directamente en resources/views/login.blade.php
-        return view('login'); 
+        return view('login');
     }
 
     /**
-     * Procesa la solicitud de inicio de sesión.
+     * Validar las credenciales del usuario.
      */
     public function login(Request $request)
     {
-        // 1. Validar que el usuario envió los datos correctamente
-        $request->validate([
-            'correo' => ['required', 'email'],
-            'password' => ['required'],
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Ingresa un correo electrónico válido.',
+            'password.required' => 'La contraseña es obligatoria.',
         ]);
 
-        // 2. Preparar las credenciales para la base de datos
-        $credenciales = [
-            'correo' => $request->correo,
-            'password' => $request->password
-        ];
-
-        // 3. Intentar autenticar con la tabla de usuarios
-        if (Auth::attempt($credenciales, $request->boolean('remember'))) {
-            // Regenerar la sesión para evitar ataques de fijación de sesión
-            $request->session()->regenerate();
-            
-            // Redirigir al panel principal (dashboard)
-            return redirect()->intended('dashboard');
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput($request->only('email'));
         }
 
-        // 4. Si las credenciales fallan, regresar al login con un mensaje de error
-        return back()->withErrors([
-            'correo' => 'Las credenciales proporcionadas no son correctas o no existen.',
-        ])->onlyInput('correo');
+        $credentials = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+        ];
+
+        if (Auth::attempt(
+            $credentials,
+            $request->boolean('remember')
+        )) {
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('dashboard'));
+        }
+
+        return back()
+            ->withErrors([
+                'email' => 'El correo electrónico o la contraseña son incorrectos.',
+            ])
+            ->withInput($request->only('email'));
     }
 
     /**
-     * Cierra la sesión del usuario.
+     * Cerrar sesión.
      */
     public function logout(Request $request)
     {
         Auth::logout();
-        
-        // Invalida la sesión actual
+
         $request->session()->invalidate();
-        
-        // Regenera el token CSRF
         $request->session()->regenerateToken();
-        
-        // Redirige a la página principal (login)
-        return redirect('/');
+
+        return redirect()->route('login');
     }
 }
